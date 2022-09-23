@@ -8,11 +8,9 @@ const ItemListContainer = () => {
     const [datos, setDatos] = useState([]);
     const { idCategory } = useParams();
 
-    console.log(idCategory);
-
     //componentDidUpdate
     useEffect(() => {
-        customFetch(1000, products.filter(item => {
+        customFetch(500, products.filter(item => {
             if (idCategory === undefined) return item;
             return item.categoryId === parseInt(idCategory)
         }))
@@ -20,10 +18,15 @@ const ItemListContainer = () => {
             .catch(err => console.log(err))
     }, [datos]);
 
+    //componentWillUnmount
+    useEffect(() => {
+        return (() => {
+            setDatos([]);
+        })
+    }, []);
+
     return (
-        <>  
             <ItemList items={datos} />
-        </>
     );
 }
 
